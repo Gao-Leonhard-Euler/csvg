@@ -22,9 +22,10 @@ namespace my_svg_cpp{
 	};
 	class svg{
 		public:
+			template<class number=unsigned int>
 			struct text_rotate{
-				uint16_t deg;int x,y;
-				text_rotate(uint16_t d=0,int xi=0,int yi=0){
+				number deg,x,y;
+				text_rotate(number d=0,number xi=0,number yi=0){
 					deg=d;x=xi;y=yi;
 				}
 				std::string RotateToString()const{
@@ -32,12 +33,12 @@ namespace my_svg_cpp{
 				}
 			};
 		protected:
-			std::vector<std::string> v,filter;
+			std::vector<std::string> v;
 		public:
 			void output(const char* const name="Untitled.svg")const{
 				std::ofstream out(name,std::ios::out);
 				out<<"<svg width=\"100\%\" height=\"100\%\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n";
-				for(int i=0,j=v.size();i<j;i++)out<<v[i];
+				for(unsigned int i=0,j=v.size();i<j;i++)out<<v[i];
 				out<<"</svg>";
 			}
 			void add(const char* const s){
@@ -46,25 +47,30 @@ namespace my_svg_cpp{
 			void add(std::string s){
 				v.push_back(s);
 			}
-			void add_text(const char* const s,const unsigned int x=0,const unsigned int y=0,const svg_color col=svg_color()){
+			template<class number=unsigned int>
+			void add_text(const char* const s,const number x=0,const number y=0,const svg_color col=svg_color()){
 				std::string str("<text x=\""+std::to_string(x)+"\" y=\""+std::to_string(y)+"\" fill=\""+col.ColorToString()+"\">");
 				str+=s;str+="</text>\n";
 				v.push_back(str);
 			}
-			void add_text(const char* const s,const text_rotate tr,const unsigned int x=0,const unsigned int y=0,const svg_color col=svg_color()){
+			template<class number=unsigned int,class num=unsigned int>
+			void add_text(const char* const s,const text_rotate<num> tr,const number x=0,const number y=0,const svg_color col=svg_color()){
 				std::string str("<text x=\""+std::to_string(x)+"\" y=\""+std::to_string(y)+"\" "+tr.RotateToString()+"fill=\""+col.ColorToString()+"\">");
 				str+=s;str+="</text>\n";
 				v.push_back(str);
 			}
-			void add_text(const std::string s,const unsigned int x=0,const unsigned int y=0,const svg_color col=svg_color()){
+			template<class number=unsigned int>
+			void add_text(const std::string s,const number x=0,const number y=0,const svg_color col=svg_color()){
 				std::string str("<text x=\""+std::to_string(x)+"\" y=\""+std::to_string(y)+"\" fill=\""+col.ColorToString()+"\">"+s+"</text>\n");
 				v.push_back(str);
 			}
-			void add_text(const std::string s,const text_rotate tr,const unsigned int x=0,const unsigned int y=0,const svg_color col=svg_color()){
+			template<class number=unsigned int,class num=unsigned int>
+			void add_text(const std::string s,const text_rotate<num> tr,const number x=0,const number y=0,const svg_color col=svg_color()){
 				std::string str("<text x=\""+std::to_string(x)+"\" y=\""+std::to_string(y)+"\" "+tr.RotateToString()+"fill=\""+col.ColorToString()+"\">"+s+"</text>\n");
 				v.push_back(str);
 			}
-			void add_line(const unsigned int x1=0,const unsigned int y1=0,const unsigned int x2=0,const unsigned int y2=0,const svg_color col=svg_color(),const unsigned int width=1,const char* const linecap=0){
+			template<class number=unsigned int>
+			void add_line(const number x1=0,const number y1=0,const number x2=0,const number y2=0,const svg_color col=svg_color(),const number width=1,const char* const linecap=0){
 				std::string s("<line x1=\""+std::to_string(x1)+"\" y1=\""+std::to_string(y1)+"\" x2=\""+std::to_string(x2)+"\" y2=\""+std::to_string(y2)+"\" style=\"stroke:"+col.ColorToString()+";stroke-width:"+std::to_string(width));
 				if(linecap){
 					s+=";stroke-linecap:";s+=linecap;
@@ -72,13 +78,16 @@ namespace my_svg_cpp{
 				s+="\"/>\n";
 				v.push_back(s);
 			}
-			void add_circle(const unsigned int x=0,const unsigned int y=0,const unsigned int r=1,const svg_color fill=svg_color(),const svg_color edge=svg_color(),const unsigned int width=1){
+			template<class number=unsigned int>
+			void add_circle(const number x=0,const number y=0,const number r=1,const svg_color fill=svg_color(),const svg_color edge=svg_color(),const number width=1){
 				v.push_back(std::string("<circle cx=\""+std::to_string(x)+"\" cy=\""+std::to_string(y)+"\" r=\""+std::to_string(r)+"\" stroke-width=\""+std::to_string(width)+"\" stroke=\""+edge.ColorToString()+"\" fill=\""+fill.ColorToString()+"\"/>\n"));
 			}
-			void add_ellipse(const unsigned int x=0,const unsigned int y=0,const unsigned int rx=1,const unsigned int ry=1,const svg_color fill=svg_color(),const svg_color edge=svg_color(),const unsigned int width=1){
+			template<class number=unsigned int>
+			void add_ellipse(const number x=0,const number y=0,const number rx=1,const number ry=1,const svg_color fill=svg_color(),const svg_color edge=svg_color(),const number width=1){
 				v.push_back(std::string("<ellipse cx=\""+std::to_string(x)+"\" cy=\""+std::to_string(y)+"\" rx=\""+std::to_string(rx)+"\" ry=\""+std::to_string(ry)+"\" stroke-width=\""+std::to_string(width)+"\" stroke=\""+edge.ColorToString()+"\" fill=\""+fill.ColorToString()+"\"/>\n"));
 			}
-			void add_rect(const unsigned int x1=0,const unsigned int y1=0,const unsigned int x2=0,const unsigned int y2=0,const svg_color fill=svg_color(),const svg_color edge=svg_color(),const unsigned int width=1){
+			template<class number=unsigned int>
+			void add_rect(const number x1=0,const number y1=0,const number x2=0,const number y2=0,const svg_color fill=svg_color(),const svg_color edge=svg_color(),const number width=1){
 				v.push_back(std::string("<rect x=\""+std::to_string(x1)+"\" y=\""+std::to_string(y1)+"\" width=\""+std::to_string(x2-x1)+"\" height=\""+std::to_string(y2-y1)+"\" style=\"fill:"+fill.ColorToString()+";stroke:"+edge.ColorToString()+";stroke-width:"+std::to_string(width)+"\"/>\n"));
 			}
 	};
