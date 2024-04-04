@@ -35,9 +35,9 @@ namespace my_svg_cpp{
 		protected:
 			std::vector<std::string> v;
 		public:
-			void output(const char* const name="Untitled.svg")const{
+			void output(const char* const name="Untitled.svg",unsigned int width=100,unsigned int height=100)const{
 				std::ofstream out(name,std::ios::out);
-				out<<"<svg width=\"100\%\" height=\"100\%\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n";
+				out<<"<svg width=\""<<std::to_string(width)<<"\%\" height=\""<<std::to_string(height)<<"\%\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n";
 				for(unsigned int i=0,j=v.size();i<j;i++)out<<v[i];
 				out<<"</svg>";
 			}
